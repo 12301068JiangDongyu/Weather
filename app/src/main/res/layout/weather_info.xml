@@ -27,7 +27,7 @@
             android:id="@+id/title_city_name"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_toRightOf="@+id/city_separator"
+            android:layout_toRightOf="@id/city_separator"
             android:gravity="center_vertical"
             android:paddingLeft="5dip"
             android:text="北京天气"
@@ -113,20 +113,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="15.0sp" />
 
-            <!--当前温度-->
-            <TextView
-                android:id="@+id/curTemperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/humidity"
-                android:layout_marginLeft="15.0dip"
-                android:layout_marginTop="5.0dip"
-                android:singleLine="true"
-                android:text="温度：5℃"
-                android:textColor="@android:color/white"
-                android:textSize="15.0sp" />
-
             <!--PM 2.5整体信息快-->
             <LinearLayout
                 android:id="@+id/pm2_5_content"
@@ -201,7 +187,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/humidity"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="5.0dip">
+                android:layout_marginTop="5.0dip"
+                android:id="@+id/relativeLayout">
 
                 <!-- 天气情况图片示例 -->
                 <ImageView
@@ -209,7 +196,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/weather_img"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/biz_plugin_weather_qing"/>
+                    android:src="@drawable/biz_plugin_weather_qing"
+                    />
 
                 <!-- 今日星期 -->
                 <TextView
@@ -218,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="5.0dip"
-                    android:layout_toRightOf="@+id/weather_img"
+                    android:layout_toRightOf="@id/weather_img"
                     android:singleLine="true"
                     android:text="今天 星期三"
                     android:textColor="@android:color/white"
@@ -231,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/week_today"
                     android:layout_marginLeft="5.0dip"
-                    android:layout_toRightOf="@+id/weather_img"
+                    android:layout_toRightOf="@id/weather_img"
                     android:singleLine="true"
                     android:text="-2℃～7℃"
                     android:textColor="@android:color/white"
@@ -244,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/temperature"
                     android:layout_marginLeft="5.0dip"
-                    android:layout_toRightOf="@+id/weather_img"
+                    android:layout_toRightOf="@id/weather_img"
                     android:singleLine="true"
                     android:text="多云转晴"
                     android:textColor="@android:color/white"
@@ -257,11 +245,36 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/climate"
                     android:layout_marginLeft="5.0dip"
-                    android:layout_toRightOf="@+id/weather_img"
+                    android:layout_toRightOf="@id/weather_img"
                     android:singleLine="true"
                     android:text="微风"
                     android:textColor="@android:color/white"
                     android:textSize="20.0sp" />
+
+                <!-- 当前温度 -->
+                <TextView
+                    android:id="@+id/cur_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10.0dip"
+                    android:layout_marginLeft="60.0dip"
+                    android:layout_toRightOf="@id/week_today"
+                    android:singleLine="true"
+                    android:text="当前温度"
+                    android:textColor="@android:color/white"
+                    android:textSize="20.0sp" />
+
+                <TextView
+                    android:id="@+id/cur_temperatureNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60.0dip"
+                    android:layout_below="@id/cur_temperature"
+                    android:layout_toRightOf="@id/week_today"
+                    android:singleLine="true"
+                    android:text="4℃"
+                    android:textColor="@android:color/white"
+                    android:textSize="35.0sp" />
 
             </RelativeLayout>
 
