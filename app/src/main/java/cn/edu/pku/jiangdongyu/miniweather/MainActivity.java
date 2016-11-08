@@ -287,27 +287,37 @@ public class MainActivity extends Activity implements View.OnClickListener{
         cityTv.setText(todayWeather.getCity());
         timeTv.setText(todayWeather.getUpdatetime()+"发布");
         humidityTv.setText("湿度："+todayWeather.getShidu());
-        pmDataTv.setText(todayWeather.getPm25());
-        pmQualityTv.setText(todayWeather.getQuality());
+        if(todayWeather.getPm25()!=null){
+            pmDataTv.setText(todayWeather.getPm25());
+            if(Integer.parseInt(todayWeather.getPm25())<50){
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
+            }else if(Integer.parseInt(todayWeather.getPm25())<100){
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_51_100);
+            }else if(Integer.parseInt(todayWeather.getPm25())<150){
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_101_150);
+            }else if(Integer.parseInt(todayWeather.getPm25())<200){
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_151_200);
+            }else if(Integer.parseInt(todayWeather.getPm25())<300){
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_201_300);
+            }else{
+                pmImg.setImageResource(R.drawable.biz_plugin_weather_greater_300);
+            }
+        }else{
+            pmDataTv.setText("N/A");
+            pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
+        }
+
+        if(todayWeather.getQuality()!=null){
+            pmQualityTv.setText(todayWeather.getQuality());
+        }else{
+            pmQualityTv.setText("N/A");
+        }
+
         weekTv.setText(todayWeather.getDate());
         temperatureTv.setText(todayWeather.getHigh()+"~"+todayWeather.getLow());
         climateTv.setText(todayWeather.getType());
         windTv.setText(todayWeather.getFengli());
         cur_temperature_Tv.setText(todayWeather.getWendu()+"℃");
-
-        if(Integer.parseInt(todayWeather.getPm25())<50){
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
-        }else if(Integer.parseInt(todayWeather.getPm25())<100){
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_51_100);
-        }else if(Integer.parseInt(todayWeather.getPm25())<150){
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_101_150);
-        }else if(Integer.parseInt(todayWeather.getPm25())<200){
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_151_200);
-        }else if(Integer.parseInt(todayWeather.getPm25())<300){
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_201_300);
-        }else{
-            pmImg.setImageResource(R.drawable.biz_plugin_weather_greater_300);
-        }
 
          switch(todayWeather.getType()){
              case "暴雪":
