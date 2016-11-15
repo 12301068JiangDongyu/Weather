@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +29,13 @@ import cn.edu.pku.jiangdongyu.bean.City;
  */
 public class SelectCity extends Activity implements View.OnClickListener {
     private ImageView mBackBtn;
+    private TextView titleName;
     private ListView listView;
-    //EditText eSearch;
-    //ImageView ivDeleteText;
-
-    List<City> mCityList;
-    //private ArrayList<City> filterCityList;
-    ArrayAdapter adapter;
-    //Handler myhandler = new Handler();
+    private EditText eSearch;
+    private ArrayList<City> filterCityList;
+    private List<City> mCityList;
+    private ArrayAdapter adapter;
+    private ArrayAdapter adapterFilter;
 
 
     @Override
@@ -44,29 +44,36 @@ public class SelectCity extends Activity implements View.OnClickListener {
         setContentView(R.layout.select_city);
 
         mCityList = MyApplication.getInstance().getCityList();
-        //filterCityList = new ArrayList<City>();
+        filterCityList = new ArrayList<City>();
+
+        titleName = (TextView) findViewById(R.id.title_name);
         mBackBtn = (ImageView) findViewById(R.id.title_back);
+        listView = (ListView) findViewById(R.id.city_list);
+        eSearch = (EditText) findViewById(R.id.etSearch);
 
         mBackBtn.setOnClickListener(this);
-        //set_eSearch_TextChanged();//设置eSearch搜索框的文本改变时监听器l
+
+        initCityList();
+        bindEvents();
+
+    }
+
+    private void set_listView_adapter() {
+        if(filterCityList.size() == 0){
+            adapter = new ArrayAdapter<City>(this, android.R.layout.simple_expandable_list_item_1, mCityList);
+            listView.setAdapter(adapter);
+        }else{
+            adapterFilter = new ArrayAdapter<City>(this, android.R.layout.simple_expandable_list_item_1, filterCityList);
+            listView.setAdapter(adapterFilter);
+        }
+
+    }
+
+    private void initCityList(){
         set_listView_adapter();
     }
 
-//    private void initCityList(){
-//        setCityListAdapter();
-//    }
-//    private void setCityListAdapter(){
-//        if(filterCityList.size() == 0){
-//            listView.setAdapter(new ArrayAdapter<City>(this, android.R.layout.simple_expandable_list_item_1, filterCityList));
-//        }else{
-//            set_listView_adapter();
-//        }
-//    }
-
-    private void set_listView_adapter() {
-        listView = (ListView) findViewById(R.id.city_list);
-        adapter = new ArrayAdapter<City>(this, android.R.layout.simple_expandable_list_item_1, mCityList);
-        listView.setAdapter(adapter);
+    private void bindEvents(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -81,59 +88,38 @@ public class SelectCity extends Activity implements View.OnClickListener {
                 editor.commit();
 
                 setResult(RESULT_OK,i);
+                titleName.setText("当前城市："+item.getCity());
                 finish();
             }
         });
+
+        eSearch.addTextChangedListener(new TextWatcher() {
+            private CharSequence temp;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                temp = s;
+                filterCityList.clear();
+                for(City item : mCityList){
+                    if(item.toString().contains(eSearch.getText().toString().trim())){
+                        filterCityList.add(item);
+                    }
+                }
+                set_listView_adapter();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
-
-    /**
-     * 设置搜索框的文本更改时的监听器
-     */
-//    private void set_eSearch_TextChanged()
-//    {
-//        eSearch = (EditText) findViewById(R.id.etSearch);
-//        eSearch.addTextChangedListener(new TextWatcher() {
-//            private CharSequence temp;
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-//                // TODO Auto-generated method stub
-//                temp = s;
-//                filterCityList.clear();
-//                for(City item : mCityList){
-//                    if(item.toString().contains(eSearch.getText().toString().trim())){
-//                        filterCityList.add(item);
-//                    }
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-//                                          int arg3) {
-//                // TODO Auto-generated method stub
-//                //这是文本框改变之前会执行的动作
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
-//
-//    }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.title_back:
-                Intent i = new Intent();
-                i.putExtra("cityCode","101020100");
-                setResult(RESULT_OK,i);
-                finish();
+                SelectCity.this.finish();
                 break;
             default:
                 break;
