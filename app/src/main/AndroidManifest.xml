@@ -20,6 +20,7 @@
         </activity>
 
         <activity android:name=".SelectCity"/>
+        <service android:name="cn.edu.pku.jiangdongyu.service.UpdateWeatherService"/>
 
     </application>
 

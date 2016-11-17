@@ -1,7 +1,10 @@
 package cn.edu.pku.jiangdongyu.miniweather;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import cn.edu.pku.jiangdongyu.bean.TodayWeather;
+import cn.edu.pku.jiangdongyu.service.UpdateWeatherService;
 import cn.edu.pku.jiangdongyu.util.NetUtil;
 
 /**
@@ -35,6 +39,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private ImageView mUpdateBtn;
 
     private ImageView mCitySelect;
+
+    private MyWeatherBroadcast mWeatherBroadcast;
 
     private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
             temperatureTv,climateTv,windTv,city_name_Tv,cur_temperature_Tv;
@@ -74,7 +80,28 @@ public class MainActivity extends Activity implements View.OnClickListener{
         mCitySelect = (ImageView) findViewById(R.id.title_city_manager);
         mCitySelect.setOnClickListener(this);
         initView();
+        startWeatherService();
 
+    }
+
+    private void startWeatherService() {
+        Intent weatherService = new Intent(this, UpdateWeatherService.class);
+        startService(weatherService);
+    }
+
+    @Override
+    protected void onStart() {
+        // 更新时间/天气广播接收器
+        mWeatherBroadcast = new MyWeatherBroadcast();
+
+        // 过滤出系统发送的时间改变的广播
+        IntentFilter filter1 = new IntentFilter();
+        filter1.addAction("WEATHER_CHANGED_ACTION");
+
+        // 注册广播
+        registerReceiver(mWeatherBroadcast, filter1);
+
+        super.onStart();
     }
 
     void initView(){
@@ -382,5 +409,25 @@ public class MainActivity extends Activity implements View.OnClickListener{
                  break;
          }
         Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(MainActivity.this, UpdateWeatherService.class));//停止更新服务
+        unregisterReceiver(mWeatherBroadcast);
+        super.onDestroy();
+    }
+
+
+    public class MyWeatherBroadcast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //拿到citycode
+            SharedPreferences sp = getSharedPreferences("config",MODE_PRIVATE);
+            String cityCode = sp.getString("main_city_code","101010100");
+            queryWeatherCode(cityCode);
+
+        }
     }
 }
