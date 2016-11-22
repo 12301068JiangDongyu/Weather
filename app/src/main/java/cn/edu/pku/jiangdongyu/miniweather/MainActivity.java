@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     private ImageView weatherImg,pmImg;
 
+    private ProgressBar updatePro;
+
     private Handler mHandler = new Handler(){
         public void handleMessage(android.os.Message msg){
             switch(msg.what){
@@ -66,7 +69,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.weather_info);
 
         mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
+        updatePro = (ProgressBar)findViewById(R.id.title_update_progress);
+
         mUpdateBtn.setOnClickListener(this);
+
 
         if(NetUtil.getNetWorkState(this)!=NetUtil.NETWORK_NONE){
             Log.d("MiniWeather","网络OK！");
@@ -141,6 +147,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
 
         if(v.getId() == R.id.title_update_btn){
+            mUpdateBtn.setVisibility(View.INVISIBLE);
+            updatePro.setVisibility(View.VISIBLE);
+
             SharedPreferences sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
             String cityCode = sharedPreferences.getString("main_city_code","101010100");
             Log.d("myWeather",cityCode);
@@ -153,6 +162,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 Log.d("myWeather","网络挂了");
                 Toast.makeText(MainActivity.this,"网络挂了",Toast.LENGTH_LONG).show();
             }
+
+
+
 
         }
 
@@ -199,6 +211,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     Log.d("myWeather",responseStr);
 
                     todayWeather = parseXML(responseStr);
+
                     if(todayWeather!=null){
                         Log.d("myWeather",todayWeather.toString());
 
@@ -408,6 +421,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
                  weatherImg.setImageResource(R.drawable.biz_plugin_weather_zhongyu);
                  break;
          }
+        updatePro.setVisibility(View.INVISIBLE);
+        mUpdateBtn.setVisibility(View.VISIBLE);
         Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_LONG).show();
     }
 
