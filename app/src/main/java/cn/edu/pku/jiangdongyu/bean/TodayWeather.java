@@ -17,23 +17,8 @@ public class TodayWeather {
     private String low;
     private String type;
 
-    @Override
-    public String toString() {
-        return "TodayWeather{" +
-                "city='" + city + '\'' +
-                ", updatetime='" + updatetime + '\'' +
-                ", wendu='" + wendu + '\'' +
-                ", shidu='" + shidu + '\'' +
-                ", pm25='" + pm25 + '\'' +
-                ", quality='" + quality + '\'' +
-                ", fengxiang='" + fengxiang + '\'' +
-                ", fengli='" + fengli + '\'' +
-                ", date='" + date + '\'' +
-                ", high='" + high + '\'' +
-                ", low='" + low + '\'' +
-                ", type='" + type + '\'' +
-                '}';
-    }
+    private String weatherImg;
+    private String pmImg;
 
     public String getCity() {
         return city;
@@ -51,36 +36,12 @@ public class TodayWeather {
         this.updatetime = updatetime;
     }
 
-    public String getWendu() {
-        return wendu;
-    }
-
-    public void setWendu(String wendu) {
-        this.wendu = wendu;
-    }
-
     public String getShidu() {
         return shidu;
     }
 
     public void setShidu(String shidu) {
         this.shidu = shidu;
-    }
-
-    public String getPm25() {
-        return pm25;
-    }
-
-    public void setPm25(String pm25) {
-        this.pm25 = pm25;
-    }
-
-    public String getQuality() {
-        return quality;
-    }
-
-    public void setQuality(String quality) {
-        this.quality = quality;
     }
 
     public String getFengxiang() {
@@ -91,14 +52,6 @@ public class TodayWeather {
         this.fengxiang = fengxiang;
     }
 
-    public String getFengli() {
-        return fengli;
-    }
-
-    public void setFengli(String fengli) {
-        this.fengli = fengli;
-    }
-
     public String getDate() {
         return date;
     }
@@ -107,12 +60,12 @@ public class TodayWeather {
         this.date = date;
     }
 
-    public String getHigh() {
-        return high;
+    public String getType() {
+        return type;
     }
 
-    public void setHigh(String high) {
-        this.high = high;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLow() {
@@ -123,11 +76,78 @@ public class TodayWeather {
         this.low = low;
     }
 
-    public String getType() {
-        return type;
+    public String getHigh() {
+        return high;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setHigh(String high) {
+        this.high = high;
+    }
+
+    public String getFengli() {
+        return fengli;
+    }
+
+    public void setFengli(String fengli) {
+        this.fengli = fengli;
+    }
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
+
+    public String getPm25() {
+        return pm25;
+    }
+
+    public void setPm25(String pm25) {
+        this.pm25 = pm25;
+    }
+
+    public String getWendu() {
+        return wendu;
+    }
+
+    public void setWendu(String wendu) {
+        this.wendu = wendu;
+    }
+
+
+    public String getWeatherImg() {
+        return weatherImg;
+    }
+
+    public void setWeatherImg(String weatherImg) {
+        this.weatherImg = weatherImg;
+    }
+
+    public String getPmImg() {
+        return pmImg;
+    }
+
+    public void setPmImg(String pmImg) {
+        this.pmImg = pmImg;
+    }
+
+
+    public  String toString(){
+        return "TodayWeather{"+
+                "city='" + city + '\'' +
+                ",updatetime='" + updatetime + '\'' +
+                ",wendu='" + wendu + '\'' +
+                ",shidu='" + shidu + '\'' +
+                ",pm25='" + pm25 + '\'' +
+                ",quality='" + quality + '\'' +
+                ",fengxiang='" + fengxiang + '\'' +
+                ",fengli='" + fengli + '\'' +
+                ",date='" + date + '\'' +
+                ",high='" + high + '\'' +
+                ",low='" + low + '\'' +
+                ",type='" + type + '\'' +
+                '}';
     }
 }

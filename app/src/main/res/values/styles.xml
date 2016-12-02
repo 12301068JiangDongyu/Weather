@@ -15,5 +15,4 @@
         <item name="android:minWidth">45.0dip</item>
         <item name="android:minHeight">45.0dip</item>
     </style>
-
 </resources>

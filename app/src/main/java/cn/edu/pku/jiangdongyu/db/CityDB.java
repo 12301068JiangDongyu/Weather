@@ -21,10 +21,10 @@ public class CityDB {
         db = context.openOrCreateDatabase(path,Context.MODE_PRIVATE,null);
     }
 
-    public List<City> getAllCity(){
+    public List<City> getAllCity() {
         List<City> list = new ArrayList<City>();
         Cursor c = db.rawQuery("SELECT * from "+CITY_TABLE_NAME,null);
-        while(c.moveToNext()){
+        while (c.moveToNext()){
             String province = c.getString(c.getColumnIndex("province"));
             String city = c.getString(c.getColumnIndex("city"));
             String number = c.getString(c.getColumnIndex("number"));
