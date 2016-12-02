@@ -18,26 +18,25 @@ import cn.edu.pku.jiangdongyu.db.CityDB;
  * Created by jiangdongyu on 2016/10/18.
  */
 public class MyApplication extends Application{
-    private static final String TAG = "MyAPP";
+    private static final String TAG = "MyApp";
 
     private static MyApplication myApplication;
     private CityDB mCityDB;
 
     private List<City> mCityList;
-
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
-        Log.d(TAG,"MyApplication->Oncreate");
-
+        //Log.d(TAG,"MyAppication->Oncreate");
         myApplication = this;
         mCityDB = openCityDB();
         initCityList();
     }
 
-    private void initCityList(){
+    private void initCityList() {
         mCityList = new ArrayList<City>();
-        new Thread(new Runnable() {
+        new Thread(new Runnable(){
+
             @Override
             public void run() {
                 prepareCityList();
@@ -45,16 +44,16 @@ public class MyApplication extends Application{
         }).start();
     }
 
-    private boolean prepareCityList(){
+    private boolean prepareCityList() {
         mCityList = mCityDB.getAllCity();
-        int i = 0;
-        for(City city: mCityList){
+        int i=0;
+        for (City city : mCityList){
             i++;
             String cityName = city.getCity();
             String cityCode = city.getNumber();
-            Log.d(TAG,cityCode+":"+cityName);
+            //Log.d(TAG,cityCode+":"+cityName);
         }
-        Log.d(TAG,"i="+i);
+        //Log.d(TAG,"i="+i);
         return true;
     }
 
@@ -65,7 +64,6 @@ public class MyApplication extends Application{
     public static MyApplication getInstance(){
         return myApplication;
     }
-
     private CityDB openCityDB(){
         String path = "/data"
                 + Environment.getDataDirectory().getAbsolutePath()
@@ -74,32 +72,31 @@ public class MyApplication extends Application{
                 + File.separator
                 + CityDB.CITY_DB_NAME;
         File db = new File(path);
-        Log.d(TAG,path);
-        if(!db.exists()){
-
+        //Log.d(TAG,path);
+        if (!db.exists()) {
             String pathfolder = "/data"
                     + Environment.getDataDirectory().getAbsolutePath()
                     + File.separator + getPackageName()
                     + File.separator + "databases1"
                     + File.separator;
             File dirFirstFolder = new File(pathfolder);
-            if(!dirFirstFolder.exists()){
+            if (!dirFirstFolder.exists()) {
                 dirFirstFolder.mkdirs();
-                Log.i("MyAPP","mkdirs");
+                Log.i("MyApp","mkdirs");
             }
-            Log.i("MyAPP","db is not exists");
+            Log.i("MyApp","db is not exists");
             try{
                 InputStream is = getAssets().open("city.db");
                 FileOutputStream fos = new FileOutputStream(db);
                 int len = -1;
                 byte[] buffer = new byte[1024];
-                while((len = is.read(buffer)) != -1){
-                    fos.write(buffer,0,len);
+                while ((len = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, len);
                     fos.flush();
                 }
                 fos.close();
                 is.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(0);
             }
