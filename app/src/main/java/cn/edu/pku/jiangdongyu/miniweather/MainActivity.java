@@ -585,7 +585,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             Log.i("BaiduLocationApiDem", sb.toString());
             String cityName = location.getDistrict();
+
+            //将城市代码保存
             String code = MyApplication.getInstance().getCityCodeByName(cityName);
+            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("main_city_code", code);
+            editor.commit();
+
             Toast.makeText(MainActivity.this,"城市："+cityName,Toast.LENGTH_LONG).show();
             queryWeatherCode(code);
             mLocationClient.stop();

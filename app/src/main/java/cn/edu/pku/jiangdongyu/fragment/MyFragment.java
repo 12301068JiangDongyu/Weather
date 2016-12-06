@@ -116,6 +116,9 @@ public class MyFragment extends Fragment {
             case "晴转霾":
                 weatherImg.setImageResource(R.drawable.biz_plugin_weather_qing);
                 break;
+            case "霾转晴":
+                weatherImg.setImageResource(R.drawable.biz_plugin_weather_mai);
+                break;
             case "霾":
                 weatherImg.setImageResource(R.drawable.biz_plugin_weather_mai);
                 break;
