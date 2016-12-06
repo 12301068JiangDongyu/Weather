@@ -61,6 +61,20 @@ public class MyApplication extends Application{
         return mCityList;
     }
 
+    public String getCityCodeByName(String cityName){
+        int i = 0;
+        String cityCode = "101010100";
+        for (City city : mCityList){
+            i++;
+            String name = city.getCity()+"区";
+            if(name.equals(cityName)){
+                cityCode = city.getNumber();
+                break;
+            }
+        }
+        return cityCode;
+    }
+
     public static MyApplication getInstance(){
         return myApplication;
     }
