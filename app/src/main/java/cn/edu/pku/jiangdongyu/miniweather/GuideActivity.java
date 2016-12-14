@@ -29,8 +29,10 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
         initSharedPreferences();
+
         initViews();
         initDots();
+
         btn = (Button) views.get(2).findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener(){
 
@@ -41,14 +43,8 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
                 finish();
             }
         });
-    }
 
-    //初始化圆点
-    private void initDots(){
-        dots = new ImageView[views.size()];
-        for(int i=0;i<views.size();i++){
-            dots[i] = (ImageView) findViewById(ids[i]);
-        }
+
     }
 
     //初始化页面
@@ -63,6 +59,16 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
         vp.setAdapter(vpAdapter);
         vp.setOnPageChangeListener(this);
     }
+
+    //初始化圆点
+    private void initDots(){
+        dots = new ImageView[views.size()];
+        for(int i=0;i<views.size();i++){
+            dots[i] = (ImageView) findViewById(ids[i]);
+        }
+    }
+
+
 
     private void initSharedPreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
