@@ -66,6 +66,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ImageView[] dots;
     private int[] ids = {R.id.iv4,R.id.iv5};
 
+    private String cityname;
+
     public static Handler getHandler(){
         return mHandler;
     }
@@ -408,6 +410,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //更新其他信息
     void updateTodayWeather(TodayWeather todayWeather){
         city_name_Tv.setText(todayWeather.getCity()+"天气");
+        cityname = todayWeather.getCity();
         cityTv.setText(todayWeather.getCity());
         timeTv.setText(todayWeather.getUpdatetime()+"发布");
         humidityTv.setText("湿度："+todayWeather.getShidu());
@@ -433,6 +436,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mTitleUpdateProgress.setVisibility(View.INVISIBLE);
         Toast.makeText(MainActivity.this,"更新成功",Toast.LENGTH_SHORT).show();
     }
+
     //根据cityCode，获取城市天气信息
     private  void queryWeatherCode(String cityCode){
         final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
@@ -447,7 +451,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     String responseStr = parseData.readData(address);
                     todayWeather = parseData.parseTodayXML(responseStr);
 
-                    if(todayWeather != null){
+                    if(todayWeather != null && todayWeather.getCity()!=null){
                         Log.d("myWeather",todayWeather.toString());
 
                         Message msg = new Message();
@@ -460,7 +464,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     List<FutureWeather> list = new ArrayList<FutureWeather>();
                     //获取并解析今日天气以及未来天气
                     list = parseData.parseFutureJSON(responseFutureStr);
-                    if(list != null){
+                    if(list != null&&!list.isEmpty()){
                         Message msg = new Message();
                         msg.what = UPDATE_FUTURE_WEATHER;
                         msg.obj = list;
@@ -479,7 +483,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         if(v.getId() == R.id.title_city_manager) {
             Intent i = new Intent(this,SelectCity.class);
-            i.putExtra("cityName",city_name_Tv.getText());
+            i.putExtra("cityName",cityname);
             startActivityForResult(i,1);
         }
         if(v.getId() == R.id.title_update_btn){
@@ -488,7 +492,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             mUpdateBtn.setVisibility(View.INVISIBLE);
             sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
             String cityCode = sharedPreferences.getString("main_city_code",newCityCode);
-            Log.d("myWeather1",cityCode);
+            Log.d("myWeather",cityCode);
 
             if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
                 Log.d("myWeather","网络OK");
